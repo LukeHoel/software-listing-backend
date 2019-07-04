@@ -23,7 +23,7 @@ const cors = require("cors");
 app.use(cors());
 
 app.get("/debian/:search", (req: Request, res: Response) => {
-  new SearchWrapper([DebianSearch(req.params.search)])
+  new SearchWrapper([DebianSearch(req.params.search), fakeArchSearch])
     .doSearch()
     .then((searchResults: SearchResult[]) => res.send(searchResults));
 });

@@ -14,7 +14,7 @@ var port = process.env.PORT || 8080;
 var cors = require("cors");
 app.use(cors());
 app.get("/debian/:search", function (req, res) {
-    new search_wrapper_1.SearchWrapper([searches_1.DebianSearch(req.params.search)])
+    new search_wrapper_1.SearchWrapper([searches_1.DebianSearch(req.params.search), searches_1.fakeArchSearch])
         .doSearch()
         .then(function (searchResults) { return res.send(searchResults); });
 });
