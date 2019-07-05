@@ -1,11 +1,6 @@
 import { Response, Request } from "express";
 import { SearchResult } from "./models";
-import {
-  DebianSearch,
-  testSearch,
-  testSearch2,
-  fakeArchSearch
-} from "./searches";
+import { DebianSearch, fakeArchSearch } from "./searches";
 import { SearchWrapper } from "./search_wrapper";
 
 /*********************************************************************************

@@ -14,25 +14,26 @@ export class SearchWrapper {
     this.searches = searches;
     return this;
   }
-  doSearch(): Promise<SearchResult[]> {
+  doSearch = async (): Promise<SearchResult[]> => {
     return new Promise((resolve: any, reject: any) => {
       let searchesLeft: number = this.searches.length;
       let finalSearchResults: SearchResult[] = [];
       // Keep track of multiple requests going out at the same time, and send back when the last one has gone off
-      this.searches.forEach(search => {
-        searchUrl(search.requestParams).then(searchResult => {
-          // Each search has a different formatting function
-          formatPromise(search.formatFunction, safeParse(searchResult)).then(
-            (formattedResults: SearchResult[]) => {
-              finalSearchResults = combineResults(
-                finalSearchResults,
-                formattedResults
-              );
-              if (--searchesLeft <= 0) resolve(finalSearchResults);
-            }
-          );
-        });
+      this.searches.forEach(async search => {
+        // Query url
+        const searchResult: string = await searchUrl(search.requestParams);
+        // Take results from url and format it into a standard format through a custom function
+        const formattedResult: SearchResult[] = await formatPromise(
+          search.formatFunction,
+          safeParse(searchResult)
+        );
+        // Combine the results by the name
+        finalSearchResults = combineResults(
+          finalSearchResults,
+          formattedResult
+        );
+        if (--searchesLeft <= 0) resolve(finalSearchResults);
       });
     });
-  }
+  };
 }
