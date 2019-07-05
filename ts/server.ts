@@ -1,6 +1,11 @@
 import { Response, Request } from "express";
 import { SearchResult } from "./models";
-import { DebianSearch, fakeArchSearch } from "./searches";
+import {
+  DebianSearch,
+  fakeArchSearch,
+  ArchSearch,
+  FedoraSearch
+} from "./searches";
 import { SearchWrapper } from "./search_wrapper";
 
 /*********************************************************************************
@@ -17,8 +22,12 @@ const port = process.env.PORT || 8080;
 const cors = require("cors");
 app.use(cors());
 
-app.get("/debian/:search", (req: Request, res: Response) => {
-  new SearchWrapper([DebianSearch(req.params.search)])
+app.get("/search/:search", (req: Request, res: Response) => {
+  new SearchWrapper([
+    DebianSearch(req.params.search),
+    ArchSearch(req.params.search),
+    FedoraSearch(req.params.search)
+  ])
     .doSearch()
     .then((searchResults: SearchResult[]) => res.send(searchResults));
 });

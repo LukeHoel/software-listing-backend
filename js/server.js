@@ -13,8 +13,12 @@ var port = process.env.PORT || 8080;
 // Allow requests from anywhere
 var cors = require("cors");
 app.use(cors());
-app.get("/debian/:search", function (req, res) {
-    new search_wrapper_1.SearchWrapper([searches_1.DebianSearch(req.params.search)])
+app.get("/search/:search", function (req, res) {
+    new search_wrapper_1.SearchWrapper([
+        searches_1.DebianSearch(req.params.search),
+        searches_1.ArchSearch(req.params.search),
+        searches_1.FedoraSearch(req.params.search)
+    ])
         .doSearch()
         .then(function (searchResults) { return res.send(searchResults); });
 });

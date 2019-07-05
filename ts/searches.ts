@@ -16,14 +16,25 @@ export const DebianSearch = (packageName: string): Search => ({
   }
 });
 
-export const fakeArchSearch: Search = {
+export const ArchSearch = (packageName: string) => ({
   requestParams: {
-    url: "https://gnome.org"
+    url: `https://www.archlinux.org/packages/search/json/?q=${packageName}`
   },
   formatFunction: (input: any) => {
-    return [
-      { name: "mozilla-firefox", platforms: ["archlinux"] },
-      { name: "somefakepackagename", platforms: ["archlinux"] }
-    ];
+    return input.results.map((current: any) => ({
+      name: current.pkgname,
+      platforms: ["archlinux"]
+    }));
   }
-};
+});
+export const FedoraSearch = (packageName: string) => ({
+  requestParams: {
+    url: `https://apps.fedoraproject.org/packages/fcomm_connector/xapian/query/search_packages/{"filters":{"search":"${packageName}"}}`
+  },
+  formatFunction: (input: any) => {
+    return input.rows.map((current: any) => ({
+      name: current.name,
+      platforms: ["fedora"]
+    }));
+  }
+});

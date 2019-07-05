@@ -14,14 +14,25 @@ exports.DebianSearch = function (packageName) { return ({
         }); });
     }
 }); };
-exports.fakeArchSearch = {
+exports.ArchSearch = function (packageName) { return ({
     requestParams: {
-        url: "https://gnome.org"
+        url: "https://www.archlinux.org/packages/search/json/?q=" + packageName
     },
     formatFunction: function (input) {
-        return [
-            { name: "mozilla-firefox", platforms: ["archlinux"] },
-            { name: "somefakepackagename", platforms: ["archlinux"] }
-        ];
+        return input.results.map(function (current) { return ({
+            name: current.pkgname,
+            platforms: ["archlinux"]
+        }); });
     }
-};
+}); };
+exports.FedoraSearch = function (packageName) { return ({
+    requestParams: {
+        url: "https://apps.fedoraproject.org/packages/fcomm_connector/xapian/query/search_packages/{\"filters\":{\"search\":\"" + packageName + "\"}}"
+    },
+    formatFunction: function (input) {
+        return input.rows.map(function (current) { return ({
+            name: current.name,
+            platforms: ["fedora"]
+        }); });
+    }
+}); };
