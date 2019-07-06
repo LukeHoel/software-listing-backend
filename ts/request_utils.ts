@@ -1,11 +1,11 @@
-import { SearchResult } from "./models";
+import { RequestResult } from "./models";
 
 const request = require("request");
 
 export const formatPromise = (
   formatFunction: Function,
   input: string
-): Promise<SearchResult[]> => {
+): Promise<RequestResult[]> => {
   return new Promise((resolve: any, reject: any) => {
     try {
       resolve(formatFunction(input));
@@ -26,10 +26,10 @@ export const safeParse = (input: string) => {
 };
 // Combine two sets of search platforms into one, by the name
 export const combineResults = (
-  first: SearchResult[],
-  second: SearchResult[]
-): SearchResult[] => {
-  const combinedResults: SearchResult[] = [...first];
+  first: RequestResult[],
+  second: RequestResult[]
+): RequestResult[] => {
+  const combinedResults: RequestResult[] = [...first];
 
   second.forEach(firstItem => {
     const sharedResult = combinedResults.find(
@@ -48,7 +48,7 @@ export const combineResults = (
   return combinedResults;
 };
 
-export const searchUrl = (requestParams: any): Promise<string> => {
+export const requestUrl = (requestParams: any): Promise<string> => {
   return new Promise((resolve: any, reject: any) =>
     request(requestParams, (error: any, response: Response, body: string) => {
       if (error) reject(error);

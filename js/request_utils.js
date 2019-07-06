@@ -35,7 +35,7 @@ exports.combineResults = function (first, second) {
     });
     return combinedResults;
 };
-exports.searchUrl = function (requestParams) {
+exports.requestUrl = function (requestParams) {
     return new Promise(function (resolve, reject) {
         return request(requestParams, function (error, response, body) {
             if (error)

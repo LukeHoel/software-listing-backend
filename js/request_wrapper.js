@@ -35,31 +35,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var search_utils_1 = require("./search_utils");
-var SearchWrapper = /** @class */ (function () {
-    function SearchWrapper(searches) {
+var request_utils_1 = require("./request_utils");
+var RequestWrapper = /** @class */ (function () {
+    function RequestWrapper(requests) {
         var _this = this;
-        this.doSearch = function () { return __awaiter(_this, void 0, void 0, function () {
+        this.doRequest = function () { return __awaiter(_this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
-                        var searchesLeft = _this.searches.length;
-                        var finalSearchResults = [];
+                        var RequestesLeft = _this.requests.length;
+                        var finalRequestResults = [];
                         // Keep track of multiple requests going out at the same time, and send back when the last one has gone off
-                        _this.searches.forEach(function (search) { return __awaiter(_this, void 0, void 0, function () {
-                            var searchResult, formattedResult;
+                        _this.requests.forEach(function (requests) { return __awaiter(_this, void 0, void 0, function () {
+                            var RequestResult, formattedResult;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, search_utils_1.searchUrl(search.requestParams)];
+                                    case 0: return [4 /*yield*/, request_utils_1.requestUrl(requests.params)];
                                     case 1:
-                                        searchResult = _a.sent();
-                                        return [4 /*yield*/, search_utils_1.formatPromise(search.formatFunction, search_utils_1.safeParse(searchResult))];
+                                        RequestResult = _a.sent();
+                                        return [4 /*yield*/, request_utils_1.formatPromise(requests.formatFunction, request_utils_1.safeParse(RequestResult))];
                                     case 2:
                                         formattedResult = _a.sent();
                                         // Combine the results by the name
-                                        finalSearchResults = search_utils_1.combineResults(finalSearchResults, formattedResult);
-                                        if (--searchesLeft <= 0)
-                                            resolve(finalSearchResults);
+                                        finalRequestResults = request_utils_1.combineResults(finalRequestResults, formattedResult);
+                                        if (--RequestesLeft <= 0)
+                                            resolve(finalRequestResults);
                                         return [2 /*return*/];
                                 }
                             });
@@ -67,9 +67,9 @@ var SearchWrapper = /** @class */ (function () {
                     })];
             });
         }); };
-        this.searches = searches;
+        this.requests = requests;
         return this;
     }
-    return SearchWrapper;
+    return RequestWrapper;
 }());
-exports.SearchWrapper = SearchWrapper;
+exports.RequestWrapper = RequestWrapper;

@@ -1,10 +1,10 @@
-import { Search } from "./models";
 import { platform } from "os";
+import { RequestConfig } from "./models";
 
-export const DebianSearch = (packageName: string): Search => ({
-  requestParams: {
-    url: `https://sources.debian.org/api/search/${packageName}`,
-    headers: { "X-Requested-With": "XmlHttpRequest" }
+// Searches
+export const DebianSearch = (packageName: string): RequestConfig => ({
+  params: {
+    url: `https://sources.debian.org/api/search/${packageName}`
   },
   formatFunction: (input: any) => {
     return input.results.other
@@ -16,8 +16,8 @@ export const DebianSearch = (packageName: string): Search => ({
   }
 });
 
-export const ArchSearch = (packageName: string) => ({
-  requestParams: {
+export const ArchSearch = (packageName: string): RequestConfig => ({
+  params: {
     url: `https://www.archlinux.org/packages/search/json/?q=${packageName}`
   },
   formatFunction: (input: any) => {
@@ -27,8 +27,8 @@ export const ArchSearch = (packageName: string) => ({
     }));
   }
 });
-export const FedoraSearch = (packageName: string) => ({
-  requestParams: {
+export const FedoraSearch = (packageName: string): RequestConfig => ({
+  params: {
     url: `https://apps.fedoraproject.org/packages/fcomm_connector/xapian/query/search_packages/{"filters":{"search":"${packageName}"}}`
   },
   formatFunction: (input: any) => {
@@ -36,5 +36,19 @@ export const FedoraSearch = (packageName: string) => ({
       name: current.name,
       platforms: ["fedora"]
     }));
+  }
+});
+// Detail searches
+export const DebianDetail = (packageName: string): RequestConfig => ({
+  params: {
+    url: `https://sources.debian.org/api/src/${packageName}`
+  },
+  formatFunction: (input: any) => {
+    return [
+      {
+        name: "debian",
+        versions: input.versions.map((version: any) => version.version)
+      }
+    ];
   }
 });

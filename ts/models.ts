@@ -1,8 +1,8 @@
-export class SearchResult {
+export class RequestResult {
   name: string = "";
-  platforms: string[] = [];
+  platforms: any[] = [];
 }
-export interface Search {
-  requestParams: any;
+export interface RequestConfig {
+  params: any;
   formatFunction: Function;
 }

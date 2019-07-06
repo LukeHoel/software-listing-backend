@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var SearchResult = /** @class */ (function () {
-    function SearchResult() {
+var RequestResult = /** @class */ (function () {
+    function RequestResult() {
         this.name = "";
         this.platforms = [];
     }
-    return SearchResult;
+    return RequestResult;
 }());
-exports.SearchResult = SearchResult;
+exports.RequestResult = RequestResult;

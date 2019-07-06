@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// Searches
 exports.DebianSearch = function (packageName) { return ({
-    requestParams: {
-        url: "https://sources.debian.org/api/search/" + packageName,
-        headers: { "X-Requested-With": "XmlHttpRequest" }
+    params: {
+        url: "https://sources.debian.org/api/search/" + packageName
     },
     formatFunction: function (input) {
         return input.results.other
@@ -15,7 +15,7 @@ exports.DebianSearch = function (packageName) { return ({
     }
 }); };
 exports.ArchSearch = function (packageName) { return ({
-    requestParams: {
+    params: {
         url: "https://www.archlinux.org/packages/search/json/?q=" + packageName
     },
     formatFunction: function (input) {
@@ -26,7 +26,7 @@ exports.ArchSearch = function (packageName) { return ({
     }
 }); };
 exports.FedoraSearch = function (packageName) { return ({
-    requestParams: {
+    params: {
         url: "https://apps.fedoraproject.org/packages/fcomm_connector/xapian/query/search_packages/{\"filters\":{\"search\":\"" + packageName + "\"}}"
     },
     formatFunction: function (input) {
@@ -34,5 +34,19 @@ exports.FedoraSearch = function (packageName) { return ({
             name: current.name,
             platforms: ["fedora"]
         }); });
+    }
+}); };
+// Detail searches
+exports.DebianDetail = function (packageName) { return ({
+    params: {
+        url: "https://sources.debian.org/api/src/" + packageName
+    },
+    formatFunction: function (input) {
+        return [
+            {
+                name: "debian",
+                versions: input.versions.map(function (version) { return version.version; })
+            }
+        ];
     }
 }); };
